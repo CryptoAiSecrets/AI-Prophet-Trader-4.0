@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 5, 5, 5;
+  --carbon-color: 10, 10, 10;
+  --carbon-highlight: 30, 30, 30;
+  --glow-color: 0, 220, 130;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 160 100% 43%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 9%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 0 0% 9%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 160 100% 43%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* Fix iOS height issues */
+  .h-screen {
+    height: 100vh; /* Fallback */
+    height: -webkit-fill-available;
+    height: 100dvh; /* Dynamic viewport height */
+  }
+
+  /* Improve tap targets on mobile */
+  button,
+  a,
+  [role="button"] {
+    @apply touch-manipulation;
+    min-height: 36px;
+    min-width: 36px;
+  }
+
+  /* Hide scrollbars but allow scrolling */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Prevent text selection on UI elements */
+  .no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Prevent iOS zoom on input focus */
+  @media screen and (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Add safe area insets for notched devices */
+  .safe-area-inset {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Carbon fiber effect */
+.carbon-bg {
+  background-color: rgb(var(--carbon-color));
+  background-image: linear-gradient(
+      45deg,
+      rgba(var(--carbon-highlight), 0.1) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(var(--carbon-highlight), 0.1) 75%,
+      rgba(var(--carbon-highlight), 0.1)
+    ),
+    linear-gradient(
+      45deg,
+      rgba(var(--carbon-highlight), 0.1) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(var(--carbon-highlight), 0.1) 75%,
+      rgba(var(--carbon-highlight), 0.1)
+    );
+  background-size: 10px 10px;
+  background-position: 0 0, 5px 5px;
+}
+
+/* Custom animations */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100vh);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 640px) {
+  .card-compact {
+    @apply p-2;
+  }
+
+  .text-compact {
+    @apply text-sm;
+  }
+
+  .h-mobile-screen {
+    height: calc(100vh - 120px);
+  }
+
+  /* Reduce padding on cards */
+  .card-content {
+    padding: 0.5rem !important;
+  }
+
+  /* Improve readability */
+  body {
+    font-size: 14px;
+  }
+
+  /* Fix overflow issues */
+  .overflow-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .recharts-wrapper,
+  .recharts-surface {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Ensure tabs don't get squished */
+  .tabs-list-mobile {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  .tabs-list-mobile::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* Improve button spacing on mobile */
+  .button-group-mobile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .button-group-mobile > * {
+    flex: 0 0 auto;
+  }
+}
+
+/* Add xs breakpoint */
+@media (min-width: 400px) {
+  .xs\:block {
+    display: block;
+  }
+  .xs\:hidden {
+    display: none;
+  }
+}
+
+/* Fix iOS height issues */
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Mobile-optimized components */
+@layer components {
+  .mobile-card {
+    @apply p-2 rounded-lg border border-white/10 bg-black/40;
+  }
+
+  .mobile-button {
+    @apply h-8 min-h-[32px] text-xs px-2 py-1;
+  }
+
+  .mobile-input {
+    @apply h-8 min-h-[32px] text-xs px-2 py-1;
+  }
+
+  .mobile-text {
+    @apply text-xs;
+  }
+
+  .mobile-heading {
+    @apply text-base font-bold;
+  }
+}
+
+/* Fix for chart rendering issues */
+.recharts-responsive-container {
+  min-height: 200px !important;
+}
+
